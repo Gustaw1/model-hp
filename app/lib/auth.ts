@@ -6,7 +6,6 @@ import { compare } from 'bcryptjs';
 import { IUser } from "../types";
 
 export const authOptions: NextAuthOptions = {
-    // https://next-auth.js.org/configuration/providers/oauth
     providers: [
         CredentialsProvider({
             id: "credentials",
@@ -22,18 +21,19 @@ export const authOptions: NextAuthOptions = {
                 }).select("+password");
 
                 if (!user) {
-                    throw new Error("Inwalid credentials");
+                    throw new Error("Invalid credentials");
                 }
                 // TODO
-                const isPasswordCorrect = await compare(credentials?.password || 'tempPassword', user.password);
+                const isPasswordCorrect = await compare(credentials?.password || 'NoPass', user.password);
 
                 if (!isPasswordCorrect) {
-                    throw new Error("Inwalid credentials")
+                    throw new Error("Invalid credentials")
                 }
                 return user;
             }
         })
     ],
+    // default login next page
     // pages: {
     //     signIn: "/login"
     // },

@@ -11,7 +11,7 @@ interface RequestBody {
 
 export async function POST(req: Request) {
 
-    db.connect().catch(err => console.log('dbConnectError:', err));
+    db.connect().catch(err => NextResponse.json({ error: "Error connecting to database" }));
 
     let body: RequestBody;
 
@@ -29,7 +29,7 @@ export async function POST(req: Request) {
     }
     else {
         if (password.length < 6) {
-            return NextResponse.json({ error: "Password should be 6 characters long" });
+            return NextResponse.json({ error: "Password should be at least 6 characters long" });
         }
     }
     const hashedPass = await hash(password, 12);
